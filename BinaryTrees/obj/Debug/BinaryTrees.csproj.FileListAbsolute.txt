@@ -1,0 +1,6 @@
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\bin\Debug\BinaryTrees.exe.config
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\bin\Debug\BinaryTrees.exe
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\bin\Debug\BinaryTrees.pdb
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\obj\Debug\BinaryTrees.csprojResolveAssemblyReference.cache
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\obj\Debug\BinaryTrees.exe
+C:\Users\JULIA\Documents\Visual Studio 2015\Projects\BinaryTrees\BinaryTrees\obj\Debug\BinaryTrees.pdb
