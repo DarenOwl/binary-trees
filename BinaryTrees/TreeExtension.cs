@@ -66,7 +66,7 @@ namespace BinaryTrees
                 PrintVertical(tree, height, levels);
             else if (printStyle == PrintStyle.Simple)
                 PrintSimple(tree, height, levels);
-            else if (height < 4)
+            else if (height < 5)
                 PrintHorisontal(tree, height, levels);
             else if (height < 9)
                 PrintVertical(tree, height, levels);
@@ -153,7 +153,7 @@ namespace BinaryTrees
                                 Console.Write('|');
                             }
                         }
-                        else if (top >= length && left > 1)
+                        else if (left > 1)
                         {
                             Console.SetCursorPosition(left - 1, top);
                             Console.Write('/');
