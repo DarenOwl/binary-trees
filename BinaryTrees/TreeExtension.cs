@@ -6,6 +6,11 @@ namespace BinaryTrees
 {
     public static class TreeExtension
     {
+        public static void Print(this Tree tree)
+        {
+            tree.Print(PrintStyle.Better);
+        }
+
         public static void Print(this Tree tree, PrintStyle printStyle) // дерево может не вместиться в консоль, тогда будет ошибка
         {
             if (tree.Root == null)
@@ -59,7 +64,8 @@ namespace BinaryTrees
                 if (isEnd) break;
             }
 
-            Console.Clear();
+            //Console.Clear();
+
             if (printStyle == PrintStyle.Horisontal)
                 PrintHorisontal(tree, height, levels);
             else if (printStyle == PrintStyle.Vertical)
@@ -77,6 +83,7 @@ namespace BinaryTrees
 
         static void PrintHorisontal(Tree tree, int height, List<List<TreeNode>> levels)
         {
+            var basicTop = Console.CursorTop + 2;
             var length = tree.Max().ToString().Length;
             var maxHeight = height;
 
@@ -92,18 +99,18 @@ namespace BinaryTrees
                     if (item != null)
                     {
                         var left = shift + count * 2 * (shift + length);
-                        var top = 2 * (maxHeight - height);
+                        var top = 2 * (maxHeight - height) + basicTop;
                         Console.SetCursorPosition(left, top);
 
                         Console.Write(item.Key);
-                        if (isLeft && top > 0)
+                        if (isLeft && top > basicTop)
                         {
                             Console.SetCursorPosition(left + length, top - 1);
                             Console.Write('/');
                             for (int i = 0; i < shift; i++)
                                 Console.Write('-');
                         }
-                        else if (top > 0)
+                        else if (top > basicTop)
                         {
                             Console.SetCursorPosition(left - shift - 1, top - 1);
                             for (int i = 0; i < shift; i++)
@@ -116,7 +123,7 @@ namespace BinaryTrees
                 }
                 height--;
             }
-            Console.SetCursorPosition(0, maxHeight*2);
+            Console.SetCursorPosition(0, maxHeight*2 + basicTop);
         }
 
         static void PrintVertical(Tree tree, int height, List<List<TreeNode>> levels)
@@ -137,7 +144,7 @@ namespace BinaryTrees
                 {
                     if (item != null)
                     {
-                        var top = shift + count * 2 * (shift + 1) + 2 - rightHeight;
+                        var top = shift + count * 2 * (shift + 1) - rightHeight + 6;
                         var left = (maxHeight - height)*(length + 1);
                         Console.SetCursorPosition(left, top);
 
@@ -205,6 +212,18 @@ namespace BinaryTrees
             {
                 if (current.Right == null) return height;
                 else current = current.Right;
+                height++;
+            }
+        }
+
+        static int LeftHeight(this Tree tree)
+        {
+            var current = tree.Root;
+            var height = 0;
+            while (true)
+            {
+                if (current.Left == null) return height;
+                else current = current.Left;
                 height++;
             }
         }

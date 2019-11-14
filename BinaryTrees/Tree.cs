@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BinaryTrees
 {
@@ -94,6 +95,85 @@ namespace BinaryTrees
                 else current = current.Right;
             }
 
+        }
+
+        public int Height()
+        {
+            if (root == null) return 0;
+
+            var queue = new Queue<TreeNode>();
+            queue.Enqueue(root);
+
+            var levelWidth = 1;
+            var height = 0;
+
+            while (queue.Count != 0)
+            {
+                var levW = 0;
+                for (int i = 0; i < levelWidth; i++)
+                {
+                    var current = queue.Dequeue();
+                    if (current.Left != null)
+                    {
+                        queue.Enqueue(current.Left);
+                        levW++;
+                    }
+                    if (current.Right != null)
+                    {
+                        queue.Enqueue(current.Right);
+                        levW++;
+                    }
+                }
+                height++;
+                levelWidth = levW;
+            }
+            return height-1;
+        }
+
+        public void Delete(int key)
+        {
+            if (Root == null) return;
+
+            var current = Root;
+
+            while (true)
+            {
+                if (key < current.Key)
+                    if (current.Left == null)
+                        break;
+                    else
+                        current = current.Left;
+                else if (key < current.Key)
+                    if (current.Right == null)
+                        break;
+                    else
+                        current = current.Right;
+                else Delete(current);
+            }
+        }
+
+        void Delete(TreeNode current)
+        {
+            TreeNode newNode = null;
+
+            if (current.Right != null)
+            {
+                newNode = current.Right;
+                if (current.Left != null)
+                {
+                    var temp = newNode;
+                    while (temp.Left != null)
+                        temp = temp.Left;
+                    temp.Left = current.Left;
+                }
+            }
+            else if (current.Left != null)
+                newNode = current.Left;
+
+            if (current.Key < current.Parent.Key)
+                current.Parent.Left = newNode;
+            else
+                current.Parent.Right = newNode;
         }
     }
 }
