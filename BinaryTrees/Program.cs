@@ -10,7 +10,12 @@ namespace BinaryTrees
             //Print_Trees();
             //Print_Trees_fixed();
             //DisplayHeight_Random();
-            DisplayDelete_Small(15,5);
+            //Auto_Delete(20,7);
+            Enter_Delete();
+            //Test_Delete_1000();
+            //Test_Height_1000();
+            //Test_Sort_1000();
+
             //Task1_Compare_Time();
         }
 
@@ -28,22 +33,68 @@ namespace BinaryTrees
             return tree;
         }
 
+        static void Enter_Delete()
+        {
+            var tree = GenerateTree(25, 8);
+            tree.Print();
+
+            Console.Write("Enter key to delete: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            int key = int.Parse(Console.ReadLine());
+            Console.ForegroundColor = ConsoleColor.White;
+
+            tree.Delete(key);
+            Console.WriteLine("result:");
+            tree.Print();
+        }
+
+        static void Test_Delete_1000()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                var tree = GenerateTree(10*i, 10*i);
+                tree.Delete(new Random().Next(10 * i));
+            }
+            Console.WriteLine("Delete() works well!");
+        }
+
+        static void Test_Height_1000()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                var tree = GenerateTree(10 * i, 10 * i);
+                tree.Height();
+            }
+            Console.WriteLine("Height() works well!");
+        }
+
+        static void Test_Sort_1000()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                var tree = GenerateTree(10 * i, 10 * i);
+                tree.SortedKeys();
+            }
+            Console.WriteLine("Sortedkeys() works well!");
+        }
+
         static void DisplayHeight_Random()
         {
-            var tree = GenerateTree(15, 5);
+            var tree = GenerateTree(15,5);
             tree.Print();
             Console.WriteLine("Height:{0}", tree.Height());
         }
 
-        static void DisplayDelete_Small(int range, int count)
+        static void Auto_Delete(int range, int count)
         {
             var tree = GenerateTree(range, count);
             tree.Print();
             var key = new Random().Next(range);           
             Console.WriteLine("I want to delete {0} key",key);
             tree.Delete(key);
+            Console.WriteLine("result:");
             tree.Print();
-            //Console.WriteLine("Height:{0}", tree.Height());
+            Console.WriteLine("Height:{0}", tree.Height());
         }
 
         static void Task1_Compare_Time()

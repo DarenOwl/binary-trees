@@ -6,7 +6,7 @@ namespace BinaryTrees
     public class TreeNode
     {
         public int Key;
-        public TreeNode Left, Right, Parent;
+        public TreeNode Left = null, Right = null, Parent = null;
 
         public TreeNode(int key)
         {
@@ -16,10 +16,8 @@ namespace BinaryTrees
 
     public class Tree
     {
-        TreeNode root;
+        TreeNode root = null;
         public TreeNode Root { get { return root; } }
-
-        List<List<int>> levelToPrint = new List<List<int>>();
 
         public void Add(int key)
         {
@@ -28,7 +26,6 @@ namespace BinaryTrees
                 root = new TreeNode(key);
                 return;
             }
-
             var current = Root;
 
             while (true)
@@ -60,7 +57,8 @@ namespace BinaryTrees
         {
             var result = new List<int>();
             var tovisit = new Stack<TreeNode>();
-            tovisit.Push(Root);
+            if (root != null)
+                tovisit.Push(Root);
 
             bool branchVisited = false;
 
@@ -90,19 +88,22 @@ namespace BinaryTrees
         {
             var current = Root;
             while(true)
-            {
                 if (current.Right == null) return current.Key;
                 else current = current.Right;
-            }
+        }
 
+        public int Min()
+        {
+            var current = Root;
+            while (true)
+                if (current.Left == null) return current.Key;
+                else current = current.Left;
         }
 
         public int Height()
         {
-            if (root == null) return 0;
-
             var queue = new Queue<TreeNode>();
-            queue.Enqueue(root);
+            if (root != null) queue.Enqueue(root);
 
             var levelWidth = 1;
             var height = 0;
@@ -127,29 +128,30 @@ namespace BinaryTrees
                 height++;
                 levelWidth = levW;
             }
-            return height-1;
+            return height;
         }
 
         public void Delete(int key)
         {
-            if (Root == null) return;
-
+            bool isDeleted = false;
             var current = Root;
 
-            while (true)
-            {
+            while (current != null)
                 if (key < current.Key)
-                    if (current.Left == null)
-                        break;
-                    else
                         current = current.Left;
-                else if (key < current.Key)
-                    if (current.Right == null)
-                        break;
-                    else
+                else if (key > current.Key)
                         current = current.Right;
-                else Delete(current);
-            }
+                else
+                {
+                    Delete(current);
+                    current = current.Right;
+                    isDeleted = true;
+                }
+
+            if (isDeleted)
+                Console.WriteLine("The key {0} was deleted successfully!", key);
+            else
+                Console.WriteLine("The key {0} was not found", key);
         }
 
         void Delete(TreeNode current)
@@ -161,19 +163,25 @@ namespace BinaryTrees
                 newNode = current.Right;
                 if (current.Left != null)
                 {
-                    var temp = newNode;
-                    while (temp.Left != null)
-                        temp = temp.Left;
-                    temp.Left = current.Left;
+                    var min = newNode;
+                    while (min.Left != null)
+                        min = min.Left;
+                    min.Left = current.Left;
                 }
             }
             else if (current.Left != null)
                 newNode = current.Left;
 
-            if (current.Key < current.Parent.Key)
-                current.Parent.Left = newNode;
+            if (newNode != null)
+                newNode.Parent = current.Parent;
+
+            if (current.Parent == null)
+                root = newNode;
             else
-                current.Parent.Right = newNode;
+                if (current.Key < current.Parent.Key)
+                    current.Parent.Left = newNode;
+                else
+                    current.Parent.Right = newNode;
         }
     }
 }

@@ -74,7 +74,7 @@ namespace BinaryTrees
                 PrintSimple(tree, height, levels);
             else if (height < 5)
                 PrintHorisontal(tree, height, levels);
-            else if (height < 9)
+            else if (height < 8)
                 PrintVertical(tree, height, levels);
             else
                 PrintSimple(tree, height, levels);
@@ -130,6 +130,8 @@ namespace BinaryTrees
         {
             var length = tree.Max().ToString().Length;
             var maxHeight = height;
+            var maxTop = 0;
+            var basicTop = Console.CursorTop + 1;
 
             var rightHeight = (int)Math.Pow(2, maxHeight - tree.RightHeight()-1)-1;
 
@@ -144,8 +146,9 @@ namespace BinaryTrees
                 {
                     if (item != null)
                     {
-                        var top = shift + count * 2 * (shift + 1) - rightHeight + 6;
-                        var left = (maxHeight - height)*(length + 1);
+                        var top = shift + count * 2 * (shift + 1) - rightHeight + basicTop;
+                        maxTop = (top > maxTop) ? top : maxTop;
+                        var left = (maxHeight - height)*(length + 1)+1;
                         Console.SetCursorPosition(left, top);
 
                         Console.Write(item.Key);
@@ -178,31 +181,41 @@ namespace BinaryTrees
                 Console.SetCursorPosition(0, 0);
                 height--;
             }
+            Console.SetCursorPosition(0, maxTop+2);
         }
 
         static void PrintSimple(Tree tree, int height, List<List<TreeNode>> levels)
         {
+            var h = 0;
             foreach (var level in levels)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(h + "|");
+                Console.ForegroundColor = ConsoleColor.White;
+                h++;
+
                 var isLeft = true;
                 foreach (var item in level)
                 {
                     if (item != null)
                     {
                         Console.Write(item.Key);
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
                         if (item.Parent == null) continue;
                         if (isLeft)
-                            Console.Write("[l.");
+                            Console.Write(".l.");
                         else
-                            Console.Write("[r.");
+                            Console.Write(".r.");
                         Console.Write(item.Parent.Key);
-                        Console.Write("] ");
+                        Console.Write(" ");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     isLeft = !isLeft;
                 }
                 Console.WriteLine();
             }
         }
+
 
         static int RightHeight(this Tree tree)
         {
